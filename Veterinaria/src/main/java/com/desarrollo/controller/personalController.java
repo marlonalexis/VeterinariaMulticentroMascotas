@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -92,6 +93,7 @@ public class personalController implements Serializable{
             personal.setUsuarios(this.usuarios);
             
             usuarios.setImagen(archivo.getContents());
+            usuarios.setPassword(DigestUtils.md5Hex(usuarios.getPassword()));
             System.out.println("nombres " + personal.getNombres());
             System.out.println("password " + usuarios.getPassword());
             

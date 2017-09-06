@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html   xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+    <h:outputScript library="primefaces" name="jquery/jquery.js"/>
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputScript library="js" name="spanishLocale.js" />
+    </h:head>
+    <h:body>
+        <h:form enctype="multipart/form-data">
+            <p:messages id="mensajes" autoUpdate="false"/>
+            <p:fieldset legend="Datos Personales" id="datos1">
+                    <h:panelGrid columns="2">
+            <p:outputLabel value="Cedula: "/>
+            <p:inputText value="#{personalController.personal.cedula}" required="true"/>
+            <p:outputLabel value="Nombres: "/>
+            <p:inputText id="txtNombres" value="#{personalController.personal.nombres}" required="true" 
+                         label="Nombres"/>
+            <p:message for="txtNombres"/>
+            
+            <p:outputLabel value="Apellidos: "/>
+            <p:inputText value="#{personalController.personal.apellidos}"/>
+            <p:outputLabel value="Fecha de Nacimiento: "/>
+            <p:calendar value="#{personalController.personal.fechaNacimiento}"  locale="es"/>
+            <p:outputLabel value="Celular: "/>
+            <p:inputText value="#{personalController.personal.celular}"/>
+            <p:outputLabel value="Telefono: "/>
+            <p:inputText value="#{personalController.personal.telefono}"/>           
+            <p:outputLabel value="Email: "/>
+            <p:inputText value="#{personalController.personal.email}"/>
+            <p:outputLabel value="Direccion: "/>
+            <p:inputText value="#{personalController.personal.direccion}"/>
+            <p:outputLabel value="Sueldo: "/>
+            <p:inputText value="#{personalController.personal.sueldo}"/>
+                    </h:panelGrid>
+                </p:fieldset>
+            <p:fieldset legend="Datos de Session" id="datos2">
+                <h:panelGrid columns="2" >
+            <p:outputLabel value="Username: "/>
+            <p:inputText value="#{personalController.usuarios.username}"/>
+            <p:outputLabel value="Password: "/>
+            <p:password id="clave1" value="#{personalController.usuarios.password}" match="clave2" feedback="true"
+                        validatorMessage="Las claves no coinciden" promptLabel="Ingrese una clave"
+                        weakLabel="Debil" strongLabel="Fuerte" goodLabel="Bueno"/>
+            <p:outputLabel value="Repetir password: "/>
+            <p:password id="clave2" required="true" requiredMessage="Campo requerido"/>
+            <p:message for="clave2"/>
+            <p:fileUpload value="#{personalController.archivo}"
+                            mode="simple" label="Seleccione imagen" />
+                </h:panelGrid>
+            </p:fieldset>
+            <p:commandButton value="Registrar" actionListener="#{personalController.registrarPersonal()}" ajax="false" update="datos1, datos2"/>
+            
+        </h:form>
+    </h:body>
+</html>
+
