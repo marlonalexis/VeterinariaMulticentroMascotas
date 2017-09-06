@@ -5,7 +5,6 @@
  */
 package com.desarrollo.ejb;
 
-import com.desarrollo.configuraciones.UtilCryptography;
 import com.desarrollo.entidades.Usuarios;
 import java.util.List;
 import java.util.logging.Level;

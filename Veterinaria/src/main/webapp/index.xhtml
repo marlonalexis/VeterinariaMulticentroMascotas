@@ -5,6 +5,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+
     <h:head>
         <style>
             body {
@@ -14,7 +15,7 @@
                 -moz-background-size: cover;
                 -o-background-size: cover;
                 background-size: cover;
-                sans-serif;
+                font-family: Sans-Serif;
             }
 
             .login-card {
@@ -147,11 +148,11 @@
                 <p>la vida de todos los que habitamos en este planeta y dignificar su </p>
                 <p>existencia.</p>
                 <br/>
-                <p:messages globalOnly="false" showDetail="true" id="txtMensaje" />
+                <p:messages autoUpdate="true" showDetail="true" />
                 <p:inputText value="#{loginFinal.usuarios.username}" placeholder="Usuario" required="true" 
-                             requiredMessage="Ingrese Usuario" onblur="ChangeCase(this);" />
+                             id="usuario" requiredMessage="Ingrese Usuario" onblur="ChangeCase(this);" />
                 <p:password value="#{loginFinal.usuarios.password}" placeholder="Password" required="true"
-                            requiredMessage="Ingrese Password" feedback="false" />
+                            id="password" requiredMessage="Ingrese Password" feedback="false" />
                 <p:commandButton value="Ingresar" styleClass="Fs16"
                                  action="#{loginFinal.autenticar}" update="@form" ></p:commandButton>
             </div>

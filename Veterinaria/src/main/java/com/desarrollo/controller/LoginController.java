@@ -70,8 +70,9 @@ public class LoginController implements Serializable {
         try {
             usu = usuarioEBJ.autenticar(usuarios);
             if (usu != null) {
+                //Almacena la sesion de jsf
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Usuarios", usu);
-                redireccion = "/principal/principal?faces-redirect=true";
+                redireccion = "/sistema/principal?faces-redirect=true";
             }else{
                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Aviso", "USUARIO/CLAVE Invalidos")); 
             } 
