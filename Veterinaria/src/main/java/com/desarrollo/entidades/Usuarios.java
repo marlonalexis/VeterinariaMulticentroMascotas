@@ -6,7 +6,10 @@
 package com.desarrollo.entidades;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -19,6 +22,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -53,8 +57,11 @@ public class Usuarios implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "personas_idpersonas")
     private Personas personas;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarios", fetch = FetchType.LAZY)
+    private List<UsuariosRol> usuariosRolList;
     
     public Usuarios() {
+        this.usuariosRolList = new ArrayList<>();
     }
 
     public Usuarios(String username, String password, String nombreCompleto, byte[] imagen, Date ultimaSesion) {
@@ -63,9 +70,13 @@ public class Usuarios implements Serializable {
         this.nombreCompleto = nombreCompleto;
         this.imagen = imagen;
         this.ultimaSesion = ultimaSesion;
+        this.usuariosRolList = new ArrayList<>();
     }
 
-
+    public Usuarios(Personas personas) {
+        this.personas = personas;
+        this.usuariosRolList = new ArrayList<>();
+    }
 
     public String getUsername() {
         return username;
@@ -119,4 +130,18 @@ public class Usuarios implements Serializable {
         this.imagen = imagen;
     }
 
+    public List<UsuariosRol> getUsuariosRolList() {
+        return usuariosRolList;
+    }
+
+    public void setUsuariosRolList(List<UsuariosRol> usuariosRolList) {
+        this.usuariosRolList = usuariosRolList;
+    }
+    
+    public void addUsuariosRol(UsuariosRol usuariosRol){
+        this.usuariosRolList.add(usuariosRol);
+        if(usuariosRol.getUsuarios()!= this){
+            usuariosRol.setUsuarios(this);
+        }
+    }
 }
