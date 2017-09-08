@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -22,14 +23,14 @@ import javax.inject.Inject;
  * @author mpluas
  */
 @ManagedBean(name = "loginFinal")
-@ViewScoped
+@SessionScoped
 public class LoginController implements Serializable {
     private static final long serialVersionUID = 1L;
     
     //Con inject no hay necesidad de declarar en el init
     @Inject
     private Usuarios usuarios;
-    @Inject
+    @Inject    
     private Usuarios usu;
     
     @EJB
@@ -37,7 +38,8 @@ public class LoginController implements Serializable {
     
     @PostConstruct
     protected void init() {
-        //usuarios = new Usuarios();
+//        usuarios = new Usuarios();
+//        usu = new Usuarios();
     }
 
     public Usuarios getUsuarios() {
@@ -67,7 +69,7 @@ public class LoginController implements Serializable {
     public String autenticar() {
         String redireccion = null;
         try {
-            this.usu = usuarioEBJ.autenticar(usuarios);
+            usu = usuarioEBJ.autenticar(usuarios);
             if (usu != null) {
                 //Almacena la sesion de jsf
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Usuarios", usu);
