@@ -148,11 +148,11 @@
                 <p>la vida de todos los que habitamos en este planeta y dignificar su </p>
                 <p>existencia.</p>
                 <br/>
-                <p:messages autoUpdate="true" showDetail="true" />
+                <p:messages globalOnly="false" showDetail="true" id="txtMensaje" />
                 <p:inputText value="#{loginFinal.usuarios.username}" placeholder="Usuario" required="true" 
-                             id="usuario" requiredMessage="Ingrese Usuario" onblur="ChangeCase(this);" />
+                             requiredMessage="Ingrese Usuario" onblur="ChangeCase(this);" />
                 <p:password value="#{loginFinal.usuarios.password}" placeholder="Password" required="true"
-                            id="password" requiredMessage="Ingrese Password" feedback="false" />
+                            requiredMessage="Ingrese Password" feedback="false" />
                 <p:commandButton value="Ingresar" styleClass="Fs16"
                                  action="#{loginFinal.autenticar}" update="@form" ></p:commandButton>
             </div>

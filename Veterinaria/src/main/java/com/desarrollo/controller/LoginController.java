@@ -27,9 +27,9 @@ public class LoginController implements Serializable {
     private static final long serialVersionUID = 1L;
     
     //Con inject no hay necesidad de declarar en el init
-
+    @Inject
     private Usuarios usuarios;
-
+    @Inject
     private Usuarios usu;
     
     @EJB
@@ -37,8 +37,7 @@ public class LoginController implements Serializable {
     
     @PostConstruct
     protected void init() {
-        usuarios = new Usuarios();
-        usu = new Usuarios();
+        //usuarios = new Usuarios();
     }
 
     public Usuarios getUsuarios() {
@@ -68,10 +67,11 @@ public class LoginController implements Serializable {
     public String autenticar() {
         String redireccion = null;
         try {
-            usu = usuarioEBJ.autenticar(usuarios);
+            this.usu = usuarioEBJ.autenticar(usuarios);
             if (usu != null) {
                 //Almacena la sesion de jsf
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Usuarios", usu);
+                System.out.println("nombre " + usu.getNombreCompleto());
                 redireccion = "/sistema/principal?faces-redirect=true";
             }else{
                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Aviso", "USUARIO/CLAVE Invalidos")); 
