@@ -7,8 +7,12 @@ package com.desarrollo.controller;
 
 import com.desarrollo.ejb.UsuariosFacadeLocal;
 import com.desarrollo.entidades.Usuarios;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -17,6 +21,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -32,14 +38,16 @@ public class LoginController implements Serializable {
     private Usuarios usuarios;
     @Inject    
     private Usuarios usu;
-    
+    private String fechaActual;
     @EJB
     private UsuariosFacadeLocal  usuarioEBJ;
+    private StreamedContent myImage;
     
     @PostConstruct
     protected void init() {
 //        usuarios = new Usuarios();
 //        usu = new Usuarios();
+        fechaActual = new Date().toString();
     }
 
     public Usuarios getUsuarios() {
@@ -66,6 +74,29 @@ public class LoginController implements Serializable {
         this.usuarioEBJ = usuarioEBJ;
     }
 
+    public String getFechaActual() {
+        return fechaActual;
+    }
+
+    public void setFechaActual(String fechaActual) {
+        this.fechaActual = fechaActual;
+    }
+
+    public StreamedContent getMyImage() {
+        if (usu.getImagen() != null) {
+    InputStream is = new ByteArrayInputStream((byte[]) usu.getImagen());
+    myImage = new DefaultStreamedContent(is, "image/png");
+        }
+        return myImage;
+    }
+
+    public void setMyImage(StreamedContent myImage) {
+        this.myImage = myImage;
+    }
+public void imagenes(){
+    InputStream is = new ByteArrayInputStream((byte[]) usu.getImagen());
+myImage = new DefaultStreamedContent(is, "image/png");
+}
     public String autenticar() {
         String redireccion = null;
         try {
@@ -73,6 +104,7 @@ public class LoginController implements Serializable {
             if (usu != null) {
                 //Almacena la sesion de jsf
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Usuarios", usu);
+                System.out.println("******************************** INICIO DE SESION ********************************");
                 System.out.println("nombre " + usu.getNombreCompleto());
                 redireccion = "/sistema/principal?faces-redirect=true";
             }else{

@@ -16,9 +16,6 @@
   <param-name>primefaces.FONT_AWESOME</param-name>
   <param-value>true</param-value>
  </context-param>
- <listener>
-  <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
- </listener>
  <context-param>
   <param-name>primefaces.THEME</param-name>
   <param-value>sentinel</param-value>
@@ -56,7 +53,7 @@
      </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            -1
         </session-timeout>
     </session-config>
  <mime-mapping>
@@ -102,4 +99,16 @@
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
+<error-page>
+  <error-code>404</error-code>
+  <location>/WEB-INF/error/404.xhtml</location>
+ </error-page>
+ <error-page>
+  <error-code>401</error-code>
+  <location>/WEB-INF/error/error.xhtml</location>
+ </error-page>
+ <error-page>
+  <error-code>403</error-code>
+  <location>/WEB-INF/error/access-denied.xhtml</location>
+ </error-page>
 </web-app>

@@ -5,10 +5,19 @@
  */
 package com.desarrollo.entidades;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -27,7 +36,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.servlet.http.HttpServletResponse;
+import javax.swing.ImageIcon;
 import javax.validation.constraints.Size;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -57,11 +70,11 @@ public class Usuarios implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "personas_idpersonas")
     private Personas personas;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarios", fetch = FetchType.LAZY)
-    private List<UsuariosRol> usuariosRolList;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "rol_idrol", referencedColumnName = "idrol")
+    private Rol rol;
     
     public Usuarios() {
-        this.usuariosRolList = new ArrayList<>();
     }
 
     public Usuarios(String username, String password, String nombreCompleto, byte[] imagen, Date ultimaSesion) {
@@ -70,12 +83,10 @@ public class Usuarios implements Serializable {
         this.nombreCompleto = nombreCompleto;
         this.imagen = imagen;
         this.ultimaSesion = ultimaSesion;
-        this.usuariosRolList = new ArrayList<>();
     }
 
     public Usuarios(Personas personas) {
         this.personas = personas;
-        this.usuariosRolList = new ArrayList<>();
     }
 
     public String getUsername() {
@@ -101,7 +112,6 @@ public class Usuarios implements Serializable {
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
     }
-
 
     public Date getUltimaSesion() {
         return ultimaSesion;
@@ -130,18 +140,16 @@ public class Usuarios implements Serializable {
         this.imagen = imagen;
     }
 
-    public List<UsuariosRol> getUsuariosRolList() {
-        return usuariosRolList;
+    public Rol getRol() {
+        return rol;
     }
 
-    public void setUsuariosRolList(List<UsuariosRol> usuariosRolList) {
-        this.usuariosRolList = usuariosRolList;
-    }
-    
-    public void addUsuariosRol(UsuariosRol usuariosRol){
-        this.usuariosRolList.add(usuariosRol);
-        if(usuariosRol.getUsuarios()!= this){
-            usuariosRol.setUsuarios(this);
+    public void setRol(Rol rol) {
+        this.rol = rol;
+        if(!this.rol.getUsuariosList().contains(this)){
+            this.rol.getUsuariosList().add(this);
         }
     }
+
 }
+    

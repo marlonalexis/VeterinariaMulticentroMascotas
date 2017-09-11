@@ -6,7 +6,10 @@
 package com.desarrollo.entidades;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -52,20 +56,25 @@ public class Menu implements Serializable {
     @Size(max = 2)
     @Column(name = "tipo")
     private String tipo;
-    @Column(name = "menu_padre")
-    private Menu menuPadre;
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "rol_idrol", referencedColumnName = "idrol")
     private Rol rol;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "menuPadre", fetch = FetchType.LAZY)
+    private List<Menu> menuPadreeList;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "menu_padre", referencedColumnName = "idmenu")
+    private Menu menuPadre;
     
     public Menu() {
+        this.menuPadreeList = new ArrayList<>();
     }
 
     public Menu(Integer idmenu) {
         this.idmenu = idmenu;
+        this.menuPadreeList = new ArrayList<>();
     }
 
-    public Menu(String estado, String accion, String descripcion, String opcion, Integer orden, String rutaImagen, String tipo, Menu menuPadre) {
+    public Menu(String estado, String accion, String descripcion, String opcion, Integer orden, String rutaImagen, String tipo) {
         this.estado = estado;
         this.accion = accion;
         this.descripcion = descripcion;
@@ -73,7 +82,7 @@ public class Menu implements Serializable {
         this.orden = orden;
         this.rutaImagen = rutaImagen;
         this.tipo = tipo;
-        this.menuPadre = menuPadre;
+        this.menuPadreeList = new ArrayList<>();
     }
     
 
@@ -158,6 +167,14 @@ public class Menu implements Serializable {
         if(!this.rol.getMenuList().contains(this)){
             this.rol.getMenuList().add(this);
         }
+    }
+
+    public List<Menu> getMenuPadreeList() {
+        return menuPadreeList;
+    }
+
+    public void setMenuPadreeList(List<Menu> menuPadreeList) {
+        this.menuPadreeList = menuPadreeList;
     }
     
 }

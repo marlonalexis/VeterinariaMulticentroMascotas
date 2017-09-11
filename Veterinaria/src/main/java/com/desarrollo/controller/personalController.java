@@ -8,13 +8,17 @@ package com.desarrollo.controller;
 import com.desarrollo.ejb.PersonalFacadeLocal;
 import com.desarrollo.ejb.UsuariosFacadeLocal;
 import com.desarrollo.entidades.Personal;
+import com.desarrollo.entidades.Rol;
 import com.desarrollo.entidades.Usuarios;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.primefaces.model.UploadedFile;
@@ -33,6 +37,8 @@ public class personalController implements Serializable{
     private UsuariosFacadeLocal usuariosEJB;
     private Personal personal;
     private Usuarios usuarios;
+    @Inject
+    private Rol rol;
     private UploadedFile archivo;
     
     @PostConstruct
@@ -65,42 +71,25 @@ public class personalController implements Serializable{
         this.archivo = archivo;
     }
     
+    public void limpiar(){
+        personal = new Personal();
+        usuarios = new Usuarios();
+    }
     public void registrarPersonal(){
         try {
-            /*personal.setFechaRegistro(new Date());
-            personal.setEstado("A");
-            this.personalEJB.create(this.personal);
-            usuarios.setPersonas(this.personal);
-            usuarios.setImagen(archivo.getContents());
-            rol.addUsuarios(usuarios);
-            this.usuariosEJB.create(this.usuarios);
-            
-            //this.usuariosEJB.create(this.usuarios);
-            //rol.addUsuarios(usuarios);
-            //this.rolEJB.create(this.rol);
-            System.out.println("nombres " + personal.getNombres());
-            System.out.println("id " + personal.getIdpersonas());
-            System.out.println("username " + usuarios.getUsername());
-            System.out.println("rol " + usuarios.getRol().getIdrol());
-            
-*/          
             personal.setFechaRegistro(new Date());
             personal.setEstado("A");
-            //personal.setIdpersonas(10);
-            //personal.setUsuarios(this.usuarios);
-            //personal.setUsuarios(this.usuarios);
             this.personalEJB.create(this.personal);
             personal.setUsuarios(this.usuarios);
-            
             usuarios.setImagen(archivo.getContents());
             usuarios.setPassword(DigestUtils.md5Hex(usuarios.getPassword()));
-            System.out.println("nombres " + personal.getNombres());
-            System.out.println("password " + usuarios.getPassword());
-            
-            System.out.println("id usuario " + usuarios.getPersonas().getIdpersonas());
+            rol.setIdrol(1);
+            usuarios.setRol(rol);
             this.usuariosEJB.create(this.usuarios);
-            
+            limpiar();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se registro el empleado correctamente"));
         } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Abiso", "No se registro el empleado"));
         }
     }
 }

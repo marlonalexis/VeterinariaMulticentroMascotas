@@ -54,17 +54,17 @@ public class Rol implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol", fetch = FetchType.LAZY)
     private List<Menu> menuList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol", fetch = FetchType.LAZY)
-    private List<UsuariosRol> usuariosRolList;
+    private List<Usuarios> usuariosList;
     
     public Rol() {
         this.menuList = new ArrayList<>();
-        this.usuariosRolList = new ArrayList<>();
+        this.usuariosList = new ArrayList<>();
     }
 
     public Rol(Integer idrol) {
         this.idrol = idrol;
         this.menuList = new ArrayList<>();
-        this.usuariosRolList = new ArrayList<>();
+        this.usuariosList = new ArrayList<>();
     }
 
     public Rol(String rol, String observacion, Date fechaRegistro, String estado) {
@@ -73,7 +73,7 @@ public class Rol implements Serializable {
         this.fechaRegistro = fechaRegistro;
         this.estado = estado;
         this.menuList = new ArrayList<>();
-        this.usuariosRolList = new ArrayList<>();
+        this.usuariosList = new ArrayList<>();
     }
 
     public Integer getIdrol() {
@@ -123,14 +123,6 @@ public class Rol implements Serializable {
     public void setMenuList(List<Menu> menuList) {
         this.menuList = menuList;
     }
-
-    public List<UsuariosRol> getUsuariosRolList() {
-        return usuariosRolList;
-    }
-
-    public void setUsuariosRolList(List<UsuariosRol> usuariosRolList) {
-        this.usuariosRolList = usuariosRolList;
-    }
     
     public void addMenu(Menu menu){
         this.menuList.add(menu);
@@ -139,12 +131,21 @@ public class Rol implements Serializable {
         }
     }
     
-    public void addUsuariosRol(UsuariosRol usuariosRol){
-        this.usuariosRolList.add(usuariosRol);
-        if(usuariosRol.getRol()!= this){
-            usuariosRol.setRol(this);
+    public void addUsuarios(Usuarios usuarios){
+        this.usuariosList.add(usuarios);
+        if(usuarios.getRol()!= this){
+            usuarios.setRol(this);
         }
     }
+
+    public List<Usuarios> getUsuariosList() {
+        return usuariosList;
+    }
+
+    public void setUsuariosList(List<Usuarios> usuariosList) {
+        this.usuariosList = usuariosList;
+    }
+    
     
     @Override
     public int hashCode() {

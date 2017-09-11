@@ -2,11 +2,10 @@
 <Scene Scope="Project" version="2">
     <Scope Scope="Faces Configuration Only"/>
     <Scope Scope="Project">
-        <Node id="sistema/modulo/mantenimiento/usuario/registrarEmpleados.xhtml" x="650" y="150" zoom="true"/>
+        <Node id="sistema/modulo/mantenimiento/rol/asignarRol.xhtml" x="150" y="300" zoom="true"/>
         <Node id="sistema/modulo/mantenimiento/rol/registrarRol.xhtml" x="150" y="150" zoom="true"/>
         <Node id="index.xhtml" x="150" y="450" zoom="true"/>
         <Node id="sistema/permisos.xhtml" x="400" y="150" zoom="true"/>
-        <Node id="sistema/modulo/mantenimiento/rol/asignarRol.xhtml" x="150" y="300" zoom="true"/>
         <Node id="sistema/principal.xhtml" x="400" y="300" zoom="true"/>
     </Scope>
     <Scope Scope="All Faces Configurations"/>
